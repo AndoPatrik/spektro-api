@@ -8063,11 +8063,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Patrik\\source\\repos\\Spektro_API_Azure\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+      "projectUniqueName": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
       "projectName": "Spektro_API_Azure",
-      "projectPath": "C:\\Users\\Patrik\\source\\repos\\Spektro_API_Azure\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+      "projectPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
       "packagesPath": "C:\\Users\\Patrik\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Patrik\\source\\repos\\Spektro_API_Azure\\Spektro_API_Azure\\obj\\",
+      "outputPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
