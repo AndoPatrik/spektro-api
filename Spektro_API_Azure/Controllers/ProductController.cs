@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Spektro_API_Azure.Model;
@@ -25,7 +21,6 @@ namespace Spektro_API_Azure.Controllers
             product.Ingredients = reader.GetString(5);
             product.Allergens = reader.GetString(6);
             return product;
-     
         }
 
         // GET: api/Product
