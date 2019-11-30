@@ -39,31 +39,38 @@ namespace Spektro_API_Azure.Controllers
         {
             string commandString = "INSERT INTO Reservations (FirstName, LastName, Email, PhoneNo, EmailNotification, SmsNotification, NoOfPeople , DateOfReservation)"+
                                    "VALUES(@FirstName, @LastName, @Email, @PhoneNo, @EmailNoti, @SmsNoti, @NoOfPeople, @DateOfReservation)";
-            
-            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            try 
             {
-                connection.Open();
-                using (SqlCommand cmd = new SqlCommand(commandString, connection))
+                using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
                 {
-                    cmd.Parameters.AddWithValue("@FirstName", input.FirstName);
-                    cmd.Parameters.AddWithValue("@LastName", input.LastName);
-                    cmd.Parameters.AddWithValue("@Email", input.EmailAddress);
-                    cmd.Parameters.AddWithValue("@PhoneNo", input.PhoneNumber);
-                    cmd.Parameters.AddWithValue("@EmailNoti", input.EmailNotifcation);
-                    cmd.Parameters.AddWithValue("@SmsNoti", input.SmsNotification);
-                    cmd.Parameters.AddWithValue("@NoOfPeople", input.NoOfPeople);
-                    cmd.Parameters.AddWithValue("@DateOfReservation", input.DateOfReservation);
-
-                    int effectedDBrows = cmd.ExecuteNonQuery();
-
-                    if (effectedDBrows > 0)
+                    connection.Open();
+                    using (SqlCommand cmd = new SqlCommand(commandString, connection))
                     {
+                        cmd.Parameters.AddWithValue("@FirstName", input.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", input.LastName);
+                        cmd.Parameters.AddWithValue("@Email", input.EmailAddress);
+                        cmd.Parameters.AddWithValue("@PhoneNo", input.PhoneNumber);
+                        cmd.Parameters.AddWithValue("@EmailNoti", input.EmailNotifcation);
+                        cmd.Parameters.AddWithValue("@SmsNoti", input.SmsNotification);
+                        cmd.Parameters.AddWithValue("@NoOfPeople", input.NoOfPeople);
+                        cmd.Parameters.AddWithValue("@DateOfReservation", input.DateOfReservation);
 
-                        return Ok();
+                        int effectedDBrows = cmd.ExecuteNonQuery();
+
+                        if (effectedDBrows > 0)
+                        {
+
+                            return Ok();
+                        }
+
+                        return Problem();
                     }
-
-                    return Problem();
                 }
+            }
+            catch (SqlException e) 
+            {
+                throw e;
+
             }
         }
 
