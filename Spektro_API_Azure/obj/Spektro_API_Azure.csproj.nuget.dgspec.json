@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {}
+    "C:\\Users\\Christian\\source\\repos\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {}
   },
   "projects": {
-    "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {
+    "C:\\Users\\Christian\\source\\repos\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+        "projectUniqueName": "C:\\Users\\Christian\\source\\repos\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
         "projectName": "Spektro_API_Azure",
-        "projectPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
-        "packagesPath": "C:\\Users\\Patrik\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\obj\\",
+        "projectPath": "C:\\Users\\Christian\\source\\repos\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+        "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Christian\\source\\repos\\spektro-api\\Spektro_API_Azure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Patrik\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Christian\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -41,6 +38,14 @@
       "frameworks": {
         "netcoreapp3.0": {
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.0.1, )"
@@ -59,9 +64,21 @@
               "target": "Package",
               "version": "[3.0.0, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[5.6.0, )"
+            },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[5.6.0, )"
             }
           },
           "imports": [
