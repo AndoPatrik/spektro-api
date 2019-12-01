@@ -59,7 +59,7 @@ namespace Spektro_API_Azure.Controllers
 
                         if (effectedDBrows > 0)
                         {
-
+                            EmailSenderService.SendEmailNotificationForReservation(input);
                             return Ok();
                         }
 
