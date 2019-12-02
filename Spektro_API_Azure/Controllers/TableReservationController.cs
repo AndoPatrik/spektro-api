@@ -59,7 +59,22 @@ namespace Spektro_API_Azure.Controllers
 
                         if (effectedDBrows > 0)
                         {
-                            EmailSenderService.SendEmailNotificationForReservation(input);
+                            if (input.EmailNotifcation)
+                            {
+                                try
+                                {
+                                    EmailSenderService.SendEmailNotificationForReservation(input);
+                                }
+                                catch (System.Exception) 
+                                {
+                                    throw;
+                                }
+                                
+                            }
+                            if (input.SmsNotification)
+                            {
+                                //TODO: Implement SMS sender service.
+                            }
                             return Ok();
                         }
 
