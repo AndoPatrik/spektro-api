@@ -17,6 +17,15 @@ namespace Spektro_API_Azure.Controllers
             return reservation;
         }
 
+        private static bool ValidateData(ReservationModel reservation) 
+        {
+            if (reservation.FirstName!= null || reservation.FirstName != string.Empty) //TODO : Implement all casees
+            {
+                return true;
+            }
+            return false;
+        }
+
         // GET: api/TableReservation
         [HttpGet]
         public List<ReservationModel> GetAllReservations()
@@ -39,6 +48,9 @@ namespace Spektro_API_Azure.Controllers
         {
             string commandString = "INSERT INTO Reservations (FirstName, LastName, Email, PhoneNo, EmailNotification, SmsNotification, NoOfPeople , DateOfReservation)"+
                                    "VALUES(@FirstName, @LastName, @Email, @PhoneNo, @EmailNoti, @SmsNoti, @NoOfPeople, @DateOfReservation)";
+
+            
+
             try 
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
