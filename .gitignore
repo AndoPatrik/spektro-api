@@ -339,3 +339,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+.vs/Spektro_API_Azure/v16/Server/sqlite3/storage.ide-wal
+.vs/Spektro_API_Azure/v16/Server/sqlite3/storage.ide-shm
+.vs/Spektro_API_Azure/v16/Server/sqlite3/storage.ide-shm
