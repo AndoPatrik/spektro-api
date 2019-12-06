@@ -31,7 +31,7 @@ namespace Spektro_API_Azure.Controllers
         }
 
         // GET: api/Product/5
-        [HttpGet("{product}", Name = "Get")]
+        [HttpGet("{product}", Name = "GetByCategory")]
         public List<ProductModel> GetByCategory(string product)
         {
             string sqlString = "select * from Products where ProductType = @product";

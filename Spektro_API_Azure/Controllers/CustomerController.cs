@@ -9,8 +9,63 @@ namespace Spektro_API_Azure.Controllers
     [ApiController]
     public class CustomerController : Controller
     {
+        private static CustomerModel BuildCustomerObj(SqlDataReader reader) 
+        {
+            CustomerModel customerFromSql = new CustomerModel();
+            customerFromSql.Id = reader.GetInt32(0);
+            customerFromSql.UserRole = reader.GetString(1);
+            customerFromSql.UserRole = customerFromSql.UserRole.Trim();
+            customerFromSql.Email = reader.GetString(2);
+            customerFromSql.Email = customerFromSql.Email.Trim();
+            customerFromSql.Kodeord = reader.GetString(3);
+            customerFromSql.Kodeord = customerFromSql.Kodeord.Trim();
+            customerFromSql.FirstName = reader.GetString(4);
+            customerFromSql.FirstName = customerFromSql.FirstName.Trim();
+            customerFromSql.LastName = reader.GetString(5);
+            customerFromSql.LastName = customerFromSql.LastName.Trim();
+            customerFromSql.EmailNotification = reader.GetBoolean(6);
+            customerFromSql.SmsNotification = reader.GetBoolean(7);
+            customerFromSql.PhoneNo = reader.GetString(8);
+            customerFromSql.PhoneNo = customerFromSql.PhoneNo.Trim();
+            return customerFromSql;
+        }
+
+        // GET: api/Customer/5
+        [HttpGet("{id}", Name = "GetSingleUser")]
+        public ActionResult GetSingleUser(int id)
+        {
+            string commandStringSelect = "SELECT * FROM Users WHERE Id = @Id";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(commandStringSelect, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        CustomerModel customerToRetrieve = new CustomerModel();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                customerToRetrieve = BuildCustomerObj(reader);
+                            }
+                        }
+
+                        if (customerToRetrieve.Id != 0)
+                        {
+                            return Ok(customerToRetrieve);
+                        }
+                        return NotFound("No customer on ID: " + id);
+                    }
+                }
+            }
+        }
+
+        // POST: api/Customer
         [HttpPost]
-        public ActionResult Post([FromBody] CustomerModel input)
+        public ActionResult RegisterCustomer([FromBody] CustomerModel input)
         {
             string commandStringSelect = "select * from Users where Email = @Email OR PhoneNo = @PhoneNo;";
 
@@ -69,6 +124,41 @@ namespace Spektro_API_Azure.Controllers
             catch (SqlException e)
             {
                 throw e;
+            }
+        }
+
+        // PUT: api/Customer/5
+        [HttpPut("{id}")]
+        public ActionResult UpdateUser(int id, [FromBody] CustomerModel input)
+        {
+            string commandStringUpdate = "UPDATE Users SET UserRole = @UserRole,Email = @Email, Kodeord = @Kodeord, FirstName = @FirstName," +
+                        " LastName = @LastName, EmailNotification = @EmailNoti, SmsNotification = @SmsNoti, PhoneNo = @PhoneNo WHERE Id = @Id;";
+
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(commandStringUpdate, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Id", input.Id);
+                    cmd.Parameters.AddWithValue("@UserRole", input.UserRole);
+                    cmd.Parameters.AddWithValue("@Email", input.Email);
+                    cmd.Parameters.AddWithValue("@Kodeord", input.Kodeord);
+                    cmd.Parameters.AddWithValue("@FirstName", input.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", input.LastName);
+                    cmd.Parameters.AddWithValue("@EmailNoti", input.EmailNotification);
+                    cmd.Parameters.AddWithValue("@SmsNoti", input.SmsNotification);
+                    cmd.Parameters.AddWithValue("@PhoneNo", input.PhoneNo);
+
+                    int updatedRow = cmd.ExecuteNonQuery();
+
+                    if (updatedRow > 0 )
+                    {
+                        return Ok("Record on id= " +id + " has been updated.");
+                    }
+
+                    return Conflict("No record was updated.");
+                }
             }
         }
     }
