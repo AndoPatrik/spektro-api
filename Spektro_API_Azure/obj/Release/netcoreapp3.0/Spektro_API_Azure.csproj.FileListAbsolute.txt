@@ -240,3 +240,13 @@ C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\obj\Release\netcoreap
 C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\obj\Release\netcoreapp3.0\Spektro_API_Azure.csproj.CopyComplete
 C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\obj\Release\netcoreapp3.0\Spektro_API_Azure.dll
 C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\obj\Release\netcoreapp3.0\Spektro_API_Azure.pdb
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Microsoft.IdentityModel.Logging.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Microsoft.IdentityModel.Protocols.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Microsoft.IdentityModel.Tokens.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\Newtonsoft.Json.Bson.dll
+C:\Development\GithubDesktop\spektro-api\Spektro_API_Azure\bin\Release\netcoreapp3.0\System.IdentityModel.Tokens.Jwt.dll

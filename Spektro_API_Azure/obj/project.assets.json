@@ -8406,19 +8406,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Christian\\.nuget\\packages\\": {}
+    "C:\\Users\\Patrik\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Christian\\source\\repos\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+      "projectUniqueName": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
       "projectName": "Spektro_API_Azure",
-      "projectPath": "C:\\Users\\Christian\\source\\repos\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
-      "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Christian\\source\\repos\\spektro-api\\Spektro_API_Azure\\obj\\",
+      "projectPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+      "packagesPath": "C:\\Users\\Patrik\\.nuget\\packages\\",
+      "outputPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Christian\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Patrik\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
