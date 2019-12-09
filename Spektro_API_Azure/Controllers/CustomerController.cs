@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Habanero.DB;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Spektro_API_Azure.Model;
 using Spektro_API_Azure.Service;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Spektro_API_Azure.Controllers
 {
@@ -9,6 +12,59 @@ namespace Spektro_API_Azure.Controllers
     [ApiController]
     public class CustomerController : Controller
     {
+        
+        [HttpGet]
+        public IEnumerable<CustomerModel> GetAllCustomers()
+        {
+            const string selectString = "select * from Users order by id";
+            using (SqlConnection databaseConnection = new SqlConnection(ConnectionString.GetConnectionString()))
+            { 
+                databaseConnection.Open();
+            using (SqlCommand selectCommand = new SqlCommand(selectString, databaseConnection))
+            {
+                using (SqlDataReader reader = selectCommand.ExecuteReader())
+                {
+                    List<CustomerModel> customerList = new List<CustomerModel>();
+                    while (reader.Read())
+                    {
+                        CustomerModel customer = ReadCustomers(reader);
+                        customerList.Add(customer);
+                    }
+                    return customerList;
+                }
+            }
+        }
+        }
+
+
+        private static CustomerModel ReadCustomers(IDataRecord reader)
+        {
+            int id = reader.GetInt32(0);
+            string userrole = reader.IsDBNull(1) ? null : reader.GetString(1);
+            string email = reader.IsDBNull(2) ? null : reader.GetString(2);
+            string kodeord = reader.IsDBNull(3) ? null : reader.GetString(3);
+            string firstname = reader.IsDBNull(4) ? null : reader.GetString(4);
+            string lastname = reader.IsDBNull(5) ? null : reader.GetString(5);
+            bool emailnotification = reader.GetBoolean(6);
+            bool smsnotification = reader.GetBoolean(7);
+            string phoneno = reader.IsDBNull(8) ? null : reader.GetString(8);
+
+
+            CustomerModel customer = new CustomerModel
+            {
+                Id = id,
+                UserRole = userrole,
+                Email = email,
+                Kodeord = kodeord,
+                FirstName = firstname,
+                LastName = lastname,
+                EmailNotification = emailnotification,
+                SmsNotification = smsnotification,
+                PhoneNo = phoneno
+            };
+            return customer;
+        }
+
         [HttpPost]
         public ActionResult Post([FromBody] CustomerModel input)
         {
@@ -17,7 +73,7 @@ namespace Spektro_API_Azure.Controllers
             string commandStringInsert = "INSERT INTO Users (UserRole, Email, Kodeord, FirstName, LastName, EmailNotification, SmsNotification, PhoneNo)" +
                                    "VALUES(@UserRole, @Email, @Kodeord, @FirstName, @LastName, @EmailNotification, @SmsNotification, @PhoneNo)";
 
-            if (input.UserRole.Length > 10 || input.Email.Length > 50 || input.Kodeord.Length > 60 || input.FirstName.Length > 30 || 
+            if (input.UserRole.Length > 10 || input.Email.Length > 50 || input.Kodeord.Length > 60 || input.FirstName.Length > 30 ||
                 input.LastName.Length > 30 || input.PhoneNo.Length > 20 || input.EmailNotification.GetType() != typeof(bool) ||
                 input.SmsNotification.GetType() != typeof(bool))
 
@@ -31,7 +87,7 @@ namespace Spektro_API_Azure.Controllers
                 {
                     connection.Open();
 
-                    using (SqlCommand checkCmd = new SqlCommand(commandStringSelect, connection)) 
+                    using (SqlCommand checkCmd = new SqlCommand(commandStringSelect, connection))
                     {
                         checkCmd.Parameters.AddWithValue("@Email", input.Email);
                         checkCmd.Parameters.AddWithValue("@PhoneNo", input.PhoneNo);
@@ -63,7 +119,7 @@ namespace Spektro_API_Azure.Controllers
                             }
                             return Conflict();
                         }
-                    }                  
+                    }
                 }
             }
             catch (SqlException e)
@@ -72,4 +128,7 @@ namespace Spektro_API_Azure.Controllers
             }
         }
     }
+
+    
+    
 }

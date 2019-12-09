@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {}
+    "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {}
   },
   "projects": {
-    "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {
+    "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+        "projectUniqueName": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
         "projectName": "Spektro_API_Azure",
-        "projectPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
-        "packagesPath": "C:\\Users\\Patrik\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\obj\\",
+        "projectPath": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+        "packagesPath": "C:\\Users\\patok\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Patrik\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\patok\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -41,6 +41,10 @@
       "frameworks": {
         "netcoreapp3.0": {
           "dependencies": {
+            "Habanero": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.0.1, )"
@@ -82,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

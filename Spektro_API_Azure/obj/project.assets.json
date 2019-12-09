@@ -2,6 +2,21 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.0": {
+      "Habanero/3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/Habanero.BO.dll": {},
+          "lib/Habanero.Base.dll": {},
+          "lib/Habanero.Console.dll": {},
+          "lib/Habanero.DB.dll": {}
+        },
+        "runtime": {
+          "lib/Habanero.BO.dll": {},
+          "lib/Habanero.Base.dll": {},
+          "lib/Habanero.Console.dll": {},
+          "lib/Habanero.DB.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -2506,6 +2521,21 @@
     }
   },
   "libraries": {
+    "Habanero/3.0.1": {
+      "sha512": "BX8WuZobnYHRU5VYFXYAtZ5Rpm1EgKZhz5cKBFGit5jhW+BNnN/gfjLOJByzZYmc0i5DmMrvBGP6JioR2p3Cqw==",
+      "type": "package",
+      "path": "habanero/3.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "habanero.3.0.1.nupkg.sha512",
+        "habanero.nuspec",
+        "lib/Habanero.BO.dll",
+        "lib/Habanero.Base.dll",
+        "lib/Habanero.Console.dll",
+        "lib/Habanero.DB.dll"
+      ]
+    },
     "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
       "sha512": "Y4rs5aMEXY8G7wJo5S3EEt6ltqyOTr/qOeZzfn+hw/fuQj5GppGckMY5psGLETo1U9hcT5MmAhaT5xtusM1b5g==",
       "type": "package",
@@ -3821,7 +3851,6 @@
       "path": "runtime.native.system.net.http/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -4574,6 +4603,7 @@
       "path": "system.composition.convention/1.0.31",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/System.Composition.Convention.dll",
@@ -4616,6 +4646,7 @@
       "path": "system.composition.typedparts/1.0.31",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/System.Composition.TypedParts.dll",
@@ -6722,7 +6753,6 @@
       "path": "system.runtime.serialization.formatters/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6810,7 +6840,6 @@
       "path": "system.runtime.serialization.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8049,6 +8078,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
+      "Habanero >= 3.0.1",
       "Microsoft.EntityFrameworkCore >= 3.0.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 3.0.0",
@@ -8057,23 +8087,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Patrik\\.nuget\\packages\\": {},
+    "C:\\Users\\patok\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+      "projectUniqueName": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
       "projectName": "Spektro_API_Azure",
-      "projectPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
-      "packagesPath": "C:\\Users\\Patrik\\.nuget\\packages\\",
-      "outputPath": "C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\obj\\",
+      "projectPath": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+      "packagesPath": "C:\\Users\\patok\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Patrik\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\patok\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8097,6 +8127,10 @@
     "frameworks": {
       "netcoreapp3.0": {
         "dependencies": {
+          "Habanero": {
+            "target": "Package",
+            "version": "[3.0.1, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[3.0.1, )"
@@ -8138,8 +8172,20 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Habanero 3.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Habanero",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.0"
+      ]
+    }
+  ]
 }
