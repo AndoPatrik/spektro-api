@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {}
+    "C:\\Users\\Christian\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {
+    "C:\\Users\\Christian\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+        "projectUniqueName": "C:\\Users\\Christian\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
         "projectName": "Spektro_API_Azure",
-        "projectPath": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
-        "packagesPath": "C:\\Users\\patok\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\patok\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\obj\\",
+        "projectPath": "C:\\Users\\Christian\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+        "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Christian\\Documents\\GitHub\\spektro-api\\Spektro_API_Azure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\patok\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Christian\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -86,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

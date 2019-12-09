@@ -43,10 +43,10 @@ namespace Spektro_API_Azure.Controllers
         private static ReservationModel ReadReservations(IDataRecord reader)
         {
             
-            string firstname = reader.IsDBNull(0) ? null : reader.GetString(0);
-            string lastname = reader.IsDBNull(1) ? null : reader.GetString(1);
-            string emailadress = reader.IsDBNull(2) ? null : reader.GetString(2);
-            string phonenumber = reader.IsDBNull(3) ? null : reader.GetString(3);
+            string firstname = reader.IsDBNull(0) ? null : reader.GetString(0).Trim();
+            string lastname = reader.IsDBNull(1) ? null : reader.GetString(1).Trim();
+            string emailadress = reader.IsDBNull(2) ? null : reader.GetString(2).Trim();
+            string phonenumber = reader.IsDBNull(3) ? null : reader.GetString(3).Trim();
             bool emailnotification = reader.GetBoolean(4);
             bool smsnotification = reader.GetBoolean(5);
             int noofpeople = reader.GetInt32(6);

@@ -41,6 +41,7 @@ namespace Spektro_API_Azure
             app.UseRouting();
 
             app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {
