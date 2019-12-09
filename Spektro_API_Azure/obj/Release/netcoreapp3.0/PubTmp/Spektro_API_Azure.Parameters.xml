@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <parameter name="IIS Web Application Name" description="" value="SpektroAPIAzure" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Development\\GithubDesktop\\spektro-api\\Spektro_API_Azure\\obj\\Release\\netcoreapp3\.0\\PubTmp\\Out\\$" />
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Development\\GitHubDesktop\\spektro-api\\Spektro_API_Azure\\obj\\Release\\netcoreapp3\.0\\PubTmp\\Out\\$" />
   </parameter>
 </parameters>

@@ -40,7 +40,7 @@ namespace Spektro_API_Azure.Controllers
 
                             // gets the ID of the user
                             int userID = reader.GetInt32(0);
-                            string role = reader.GetString(1); 
+                            string role = reader.GetString(1).Trim(); 
 
                             // Security Key  from Service
                             string securityKey = ConnectionString.GetSecretKey();
