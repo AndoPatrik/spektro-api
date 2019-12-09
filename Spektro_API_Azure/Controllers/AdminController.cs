@@ -16,6 +16,7 @@ namespace Spektro_API_Azure.Controllers
     public class AdminController : ControllerBase
     {
         // GET: api/Admin
+        [Route("TableReservation")]
         [HttpGet]
         public IEnumerable<ReservationModel> GetAllReservations()
         {
@@ -70,8 +71,8 @@ namespace Spektro_API_Azure.Controllers
         }
 
         // GET: api/Admin/5
-        [Route("{id}")]
-        public ReservationModel GeCouponById(int id)
+        [Route("TableReservation/{id}")]
+        public ReservationModel GetReservationById(int id)
         {
             const string selectString = "select * from Reservations where id=@id";
             using (SqlConnection databaseConnection = new SqlConnection(ConnectionString.GetConnectionString()))
