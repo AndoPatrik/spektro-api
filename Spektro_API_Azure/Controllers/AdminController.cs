@@ -71,6 +71,7 @@ namespace Spektro_API_Azure.Controllers
         }
 
         // GET: api/Admin/5
+        [HttpGet]
         [Route("TableReservation/{id}")]
         public ReservationModel GetReservationById(int id)
         {
@@ -98,15 +99,37 @@ namespace Spektro_API_Azure.Controllers
         }
 
         // PUT: api/Admin/5
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE: api/ApiWithActions/5
+
+        
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Route("TableReservation/{id}")]
+        public ActionResult Delete(int id)
         {
+            string deleteString = "DELETE FROM Reservations WHERE Id = @Id";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(deleteString, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    int rowEffected = cmd.ExecuteNonQuery();
+
+                    if (rowEffected < 0)
+                    {
+                        return NotFound("Reservation couldn't be found on id: " + id);
+                    }
+                    return Ok("Reservation deleted on id: " + id);
+                }
+            }
         }
     }
 }
