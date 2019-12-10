@@ -89,8 +89,8 @@
             [HttpPost]
             public ActionResult Post([FromBody] CouponModel input)
             {
-                string commandStringInsert = "INSERT INTO Coupons (Label, Description, Discount, DateOfIssue, DateOfExpiry, Validity)" +
-                                       "VALUES(@Label, @Description, @Discount, @DateOfIssue, @DateOfExpiry, @Validity)";
+                string commandStringInsert = "INSERT INTO Coupons (Label, Description, Discount, DateOfIssue, DateOfExpiry, Validity, CustomerId)" +
+                                       "VALUES(@Label, @Description, @Discount, @DateOfIssue, @DateOfExpiry, @Validity, @CustomerId)";
 
 
                 try
@@ -108,7 +108,7 @@
                             cmd.Parameters.AddWithValue("@DateOfIssue", input.DateOfIssue);
                             cmd.Parameters.AddWithValue("@DateOfExpiry", input.DateOfExpiry);
                             cmd.Parameters.AddWithValue("@Validity", input.Validity);
-
+                            cmd.Parameters.AddWithValue("@CustomerId", 1); //TODO Need to be changed to dynamic data
                             int effectedDBrows = cmd.ExecuteNonQuery();
 
                             if (effectedDBrows < 0)
