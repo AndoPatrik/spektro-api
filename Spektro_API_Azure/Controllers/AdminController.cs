@@ -52,6 +52,7 @@ namespace Spektro_API_Azure.Controllers
             bool smsnotification = reader.GetBoolean(5);
             int noofpeople = reader.GetInt32(6);
             DateTime dateofreservation = reader.GetDateTime(7);
+            int id = reader.GetInt32(8);
 
 
 
@@ -65,7 +66,8 @@ namespace Spektro_API_Azure.Controllers
                 EmailNotifcation = emailnotification,
                 SmsNotification = smsnotification,
                 NoOfPeople = noofpeople,
-                DateOfReservation = dateofreservation
+                DateOfReservation = dateofreservation,
+                Id = id,
             };
             return reservation;
         }
@@ -101,15 +103,42 @@ namespace Spektro_API_Azure.Controllers
         // PUT: api/Admin/5
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Route("TableReservation/Update/{id}")]
+        public ActionResult UpdateReservation(int id, [FromBody] ReservationModel input)
         {
+            string updateString = "update Reservations set FirstName = @FirstName , LastName = @LastName , Email = @Email ,PhoneNo = @PhoneNo , EmailNotification = @EmailNotification, SmsNotification = @SmsNotification, NoOfPeople = @NoOfPeople, DateOfReservation = @DateOfReservation where Id = @Id";
+            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(updateString, connection))
+                {
+                    //TODO cmd.Params.Addwithvalue
+                    cmd.Parameters.AddWithValue("@FirstName", input.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", input.LastName);
+                    cmd.Parameters.AddWithValue("@Email", input.EmailAddress);
+                    cmd.Parameters.AddWithValue("@PhoneNo", input.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@EmailNotification", input.EmailNotifcation);
+                    cmd.Parameters.AddWithValue("@SmsNotification", input.SmsNotification);
+                    cmd.Parameters.AddWithValue("@NoOfPeople", input.NoOfPeople);
+                    cmd.Parameters.AddWithValue("@DateOfReservation ", input.DateOfReservation);
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    int updatedRows = cmd.ExecuteNonQuery();
+
+                    if (updatedRows < 0) 
+                    {
+                        return Conflict("The reservations could not be updated on id: " + id );
+                    }
+                    return Ok("Reservation updated on id: " + id);
+                }
+            }
         }
 
         // DELETE: api/ApiWithActions/5
 
         
         [HttpDelete("{id}")]
-        [Route("TableReservation/{id}")]
+        [Route("TableReservation/Delete/{id}")]
         public ActionResult Delete(int id)
         {
             string deleteString = "DELETE FROM Reservations WHERE Id = @Id";
