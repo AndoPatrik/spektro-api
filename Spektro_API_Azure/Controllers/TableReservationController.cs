@@ -113,7 +113,6 @@ namespace Spektro_API_Azure.Controllers
         [Route("NotifyAll")]
         public ActionResult NotifyAll() 
         {
-
             string todaysDate = DateTime.Now.Date.ToString("yyyy-MM-dd").Replace(".","-").Trim();
             string cmdTodaysReservations = $"select * from Reservations where DateOfReservation = '{todaysDate}' and EmailNotification='true' or  DateOfReservation = '{todaysDate}' and SmsNotification = 'true'";
             List<ReservationModel> todaysReservations = new List<ReservationModel> { };
@@ -122,39 +121,46 @@ namespace Spektro_API_Azure.Controllers
             int sentEmail = 0;
             int sentSMS = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            try
             {
-                connection.Open();
-                using (SqlCommand cmd = new SqlCommand(cmdTodaysReservations, connection))
+                using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    connection.Open();
+                    using (SqlCommand cmd = new SqlCommand(cmdTodaysReservations, connection))
                     {
-                        if (reader.HasRows)
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            
-                            while (reader.Read())
+                            if (reader.HasRows)
                             {
-                                ReservationModel rm = BuildReservationModel(reader);
-                                todaysReservations.Add(rm);
 
-                                if (reader.GetBoolean(4) == true )
+                                while (reader.Read())
                                 {
-                                    //TODO: CALL EMAIL SENDER
-                                    sentEmail++;
-                                    successful++;
-                                }
-                                if (reader.GetBoolean(5) == true)
-                                {
-                                    //TODO: CALL SMS SENDER
-                                    sentSMS++;
-                                    successful++;
+                                    ReservationModel rm = BuildReservationModel(reader);
+                                    todaysReservations.Add(rm);
+
+                                    if (reader.GetBoolean(4) == true)
+                                    {
+                                        //TODO: CALL EMAIL SENDER
+                                        sentEmail++;
+                                        successful++;
+                                    }
+                                    if (reader.GetBoolean(5) == true)
+                                    {
+                                        //TODO: CALL SMS SENDER
+                                        sentSMS++;
+                                        successful++;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                return Ok($"Today we have {todaysReservations.Count} reservations a day prior. We have sent {successful} reminder. We failed to send to {failed} email. Emails = {sentEmail} , SMS = {sentSMS}");
             }
-            return Ok($"Today we have {todaysReservations.Count} reservations a day prior. We have sent {successful} reminder. We failed to send to {failed} email. Emails = {sentEmail} , SMS = {sentSMS}");
+            catch (SqlException e)
+            {
+                return NotFound(e.ToString());
+            }
         }
     }
 }

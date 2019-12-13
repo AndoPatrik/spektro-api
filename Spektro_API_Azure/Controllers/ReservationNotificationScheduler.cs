@@ -10,6 +10,8 @@ namespace Spektro_API_Azure.Controllers
     {
         private int _hour = 7;
         private int _minute = 0;
+        private TableReservationController trc = new TableReservationController();
+
 
         [Route("NextTrigger")]
         [HttpGet]
@@ -26,7 +28,7 @@ namespace Spektro_API_Azure.Controllers
             _hour = hour;
             _minute = minute;
 
-            RecurringJob.AddOrUpdate(recurringJobId: "DailyReservationNotification", methodCall: () => Console.WriteLine("Call here the actual method"), Cron.Daily(_hour,_minute)); 
+            RecurringJob.AddOrUpdate(recurringJobId: "DailyReservationNotification", methodCall: () => trc.NotifyAll(), Cron.Daily(_hour,_minute)); 
             return Ok();
         }
     }
