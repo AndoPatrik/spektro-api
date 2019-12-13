@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Hangfire;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Spektro_API_Azure.Controllers
@@ -33,14 +29,5 @@ namespace Spektro_API_Azure.Controllers
             RecurringJob.AddOrUpdate(recurringJobId: "DailyReservationNotification", methodCall: () => Console.WriteLine("Call here the actual method"), Cron.Daily(_hour,_minute)); 
             return Ok();
         }
-
-
-
-        // POST: api/NotificationCenter
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
     }
 }

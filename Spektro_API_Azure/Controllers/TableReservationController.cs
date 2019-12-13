@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Spektro_API_Azure.Model;
@@ -13,7 +14,14 @@ namespace Spektro_API_Azure.Controllers
         private static ReservationModel BuildReservationModel(SqlDataReader reader) 
         {
             ReservationModel reservation = new ReservationModel();
-            //TODO : Implement SQL data => C# obj
+            reservation.FirstName = reader.GetString(0);
+            reservation.LastName = reader.GetString(1);
+            reservation.EmailAddress = reader.GetString(2);
+            reservation.PhoneNumber = reader.GetString(3);
+            reservation.EmailNotifcation = reader.GetBoolean(4);
+            reservation.SmsNotification = reader.GetBoolean(5);
+            reservation.NoOfPeople = reader.GetInt32(6);
+            reservation.DateOfReservation = reader.GetDateTime(7);
             return reservation;
         }
 
@@ -101,18 +109,52 @@ namespace Spektro_API_Azure.Controllers
             }
         }
 
-        // PUT: api/TableReservation/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] ReservationModel input)
+        [HttpGet]
+        [Route("NotifyAll")]
+        public ActionResult NotifyAll() 
         {
-            //TODO: Update reservation in DB
-        }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-           //TODO: Delete reservation record.
+            string todaysDate = DateTime.Now.Date.ToString("yyyy-MM-dd").Replace(".","-").Trim();
+            string cmdTodaysReservations = $"select * from Reservations where DateOfReservation = '{todaysDate}' and EmailNotification='true' or  DateOfReservation = '{todaysDate}' and SmsNotification = 'true'";
+            List<ReservationModel> todaysReservations = new List<ReservationModel> { };
+            int successful = 0;
+            int failed = 0;
+            int sentEmail = 0;
+            int sentSMS = 0;
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            {
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand(cmdTodaysReservations, connection))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            
+                            while (reader.Read())
+                            {
+                                ReservationModel rm = BuildReservationModel(reader);
+                                todaysReservations.Add(rm);
+
+                                if (reader.GetBoolean(4) == true )
+                                {
+                                    //TODO: CALL EMAIL SENDER
+                                    sentEmail++;
+                                    successful++;
+                                }
+                                if (reader.GetBoolean(5) == true)
+                                {
+                                    //TODO: CALL SMS SENDER
+                                    sentSMS++;
+                                    successful++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return Ok($"Today we have {todaysReservations.Count} reservations a day prior. We have sent {successful} reminder. We failed to send to {failed} email. Emails = {sentEmail} , SMS = {sentSMS}");
         }
     }
 }
