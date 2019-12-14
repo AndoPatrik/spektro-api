@@ -22,7 +22,7 @@ namespace Spektro_API_Azure.Controllers
         {
             try
             {
-                DynamicEmailSender.SendCustomEmail(firstname, lastname, email, date, mailtype, subject);
+                DynamicEmailSender.SendCustomEmail(firstname, lastname, email.ToLower(), date, mailtype.ToUpper(), subject);
             }
             catch (System.Exception)
             {
