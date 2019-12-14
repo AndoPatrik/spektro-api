@@ -10,11 +10,11 @@ namespace Spektro_API_Azure.Service
         {
             string mailContent = "";
 
-            string couponPath = "EmailAssets\\Coupon.html";
-            string forgottenPath = "EmailAssets\\Forgotten.html";
-            string promoPath = "EmailAssets\\Promo.html";
-            string registrationPath = "EmailAssets\\Registration.html";
-            string reservationPath = "EmailAssets\\Reservation.html";
+            string couponPath = @"EmailAssets\\Coupon.html";
+            string forgottenPath = @"EmailAssets\\Forgotten.html";
+            string promoPath = @"EmailAssets\\Promo.html";
+            string registrationPath = @"EmailAssets\\Registration.html";
+            string reservationPath = @"EmailAssets\\Reservation.html";
 
             // mailtypes: COUPON, RESERVATION, PROMO, REGISTRATION, FORGOTTEN
             if (mailtype == "COUPON")
