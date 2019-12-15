@@ -15,8 +15,9 @@ namespace Spektro_API_Azure.Service
             string promoPath = @"EmailAssets\\Promo.html";
             string registrationPath = @"EmailAssets\\Registration.html";
             string reservationPath = @"EmailAssets\\Reservation.html";
+            string reservationwaiterPath = @"EmailAssets\\ReservationWaiter.html";
 
-            // mailtypes: COUPON, RESERVATION, PROMO, REGISTRATION, FORGOTTEN
+            // mailtypes: COUPON, RESERVATION, RESERVATIONWAITER, PROMO, REGISTRATION, FORGOTTEN
             if (mailtype == "COUPON")
             {
                 mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(couponPath);
@@ -24,6 +25,10 @@ namespace Spektro_API_Azure.Service
             else if (mailtype == "RESERVATION")
             {
                 mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(reservationPath);
+            }
+            else if (mailtype == "RESERVATIONWAITER")
+            {
+                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(reservationwaiterPath);
             }
             else if (mailtype == "PROMO")
             {
