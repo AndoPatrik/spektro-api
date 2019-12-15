@@ -28,7 +28,7 @@ namespace Spektro_API_Azure.Service
             }
             else if (mailtype == "RESERVATIONWAITER")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(reservationwaiterPath);
+                mailContent = @"Hello main waiter!<br>" + File.ReadAllText(reservationwaiterPath) + "Name: " + firstname + " " + lastname + "<br>Email: " + email + "<br>Date: " + date;
             }
             else if (mailtype == "PROMO")
             {
