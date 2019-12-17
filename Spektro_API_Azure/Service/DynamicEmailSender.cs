@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net.Mail;
 
 namespace Spektro_API_Azure.Service
@@ -10,37 +9,31 @@ namespace Spektro_API_Azure.Service
         {
             string mailContent = "";
 
-            string couponPath = @"EmailAssetFiles\\Coupon.html";
-            string forgottenPath = @"EmailAssetFiles\\Forgotten.html";
-            string promoPath = @"EmailAssetFiles\\Promo.html";
-            string registrationPath = @"EmailAssetFiles\\Registration.html";
-            string reservationPath = @"EmailAssetFiles\\Reservation.html";
-            string reservationwaiterPath = @"EmailAssetFiles\\ReservationWaiter.html";
-
+          
             // mailtypes: COUPON, RESERVATION, RESERVATIONWAITER, PROMO, REGISTRATION, FORGOTTEN
             if (mailtype == "COUPON")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(couponPath);
+                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + EmailAssets.GetCouponHTML();
             }
             else if (mailtype == "RESERVATION")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(reservationPath);
+                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + EmailAssets.GetReservationHTML();
             }
             else if (mailtype == "RESERVATIONWAITER")
             {
-                mailContent = @"Hello main waiter!<br>" + File.ReadAllText(reservationwaiterPath) + "Name: " + firstname + " " + lastname + "<br>Email: " + email + "<br>Date: " + date;
+                mailContent = @"Hello main waiter!<br>" + EmailAssets.GetReservationWaiterHTML() + "Name: " + firstname + " " + lastname + "<br>Email: " + email + "<br>Date: " + date;
             }
             else if (mailtype == "PROMO")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(promoPath);
+                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + EmailAssets.GetPromoHTML();
             }
             else if (mailtype == "REGISTRATION")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(registrationPath);
+                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + EmailAssets.GetReservationHTML();
             }
             else if (mailtype == "FORGOTTEN")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + File.ReadAllText(forgottenPath);
+                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + EmailAssets.GetForgottenHTML();
             };
 
 
