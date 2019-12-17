@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Daniel\\Desktop\\Spektro\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {}
+    "C:\\Development\\GitHubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Daniel\\Desktop\\Spektro\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {
+    "C:\\Development\\GitHubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daniel\\Desktop\\Spektro\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+        "projectUniqueName": "C:\\Development\\GitHubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
         "projectName": "Spektro_API_Azure",
-        "projectPath": "C:\\Users\\Daniel\\Desktop\\Spektro\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
-        "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daniel\\Desktop\\Spektro\\spektro-api\\Spektro_API_Azure\\obj\\",
+        "projectPath": "C:\\Development\\GitHubDesktop\\spektro-api\\Spektro_API_Azure\\Spektro_API_Azure.csproj",
+        "packagesPath": "C:\\Users\\andop\\.nuget\\packages\\",
+        "outputPath": "C:\\Development\\GitHubDesktop\\spektro-api\\Spektro_API_Azure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\andop\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
