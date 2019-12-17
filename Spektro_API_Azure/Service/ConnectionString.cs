@@ -15,5 +15,15 @@
         {
             return secretKey;
         }
+
+        public static string GetTwillioSID() 
+        {
+            return "AC20cf01f0c9fe1b333fba34ad8eb5f9f7";
+        }
+
+        public static string GetTwillioAuthToken() 
+        {
+            return "1937e2bf0870eafac8a7ff80c31cf941";
+        }
     }
 }

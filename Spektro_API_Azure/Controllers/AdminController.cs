@@ -157,5 +157,17 @@ namespace Spektro_API_Azure.Controllers
                 }
             }
         }
+
+        [HttpGet]
+        [Route("SMS")]
+        public IActionResult SendSMSTest() 
+        {
+            if (SMSSender.SendSMS("+4550378071"))
+            {
+                return Ok("SMS has been sent.");
+            }
+            return NotFound("Something went wrong. SMS has not been sent.");
+            
+        }
     }
 }
