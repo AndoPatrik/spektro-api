@@ -1,38 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Spektro_API_Azure.Model
 {
     public class CouponModel
     {
         private int id;
-        private string label;
+        private string code;
         private string description;
-        private int discount;
-        private DateTime dateOfIssue;
-        private DateTime dateOfExpiry;
+        private DateTime validFrom;
+        private DateTime validUntil;
         private bool validity;
+        private int userId;
 
         public CouponModel() { }
-        public CouponModel(int id, string label, string description, int discount, DateTime dateOfIssue, DateTime dateOfExpiry, bool validity)
+        public CouponModel(int id, string code, string description, DateTime validFrom, DateTime validUntil, bool validity, int userId)
         {
             this.id = id;
-            this.label = label;
+            this.code = code;
             this.description = description;
-            this.discount = discount;
-            this.dateOfIssue = dateOfIssue;
-            this.dateOfExpiry = dateOfExpiry;
+            this.validFrom = validFrom;
+            this.validUntil = validUntil;
             this.validity = validity;
+            this.userId = userId;
         }
 
         public int Id { get => id; set => id = value; }
-        public string Label { get => label; set => label = value; }
+        public string Code { get => code; set => code = value; }
         public string Description { get => description; set => description = value; }
-        public int Discount { get => discount; set => discount = value; }
-        public DateTime DateOfIssue { get => dateOfIssue; set => dateOfIssue = value; }
-        public DateTime DateOfExpiry { get => dateOfExpiry; set => dateOfExpiry = value; }
+        public DateTime ValidFrom { get => validFrom; set => validFrom = value; }
+        public DateTime ValidUntil { get => validUntil; set => validUntil = value; }
         public bool Validity { get => validity; set => validity = value; }
+        public int UserId { get => userId; set => userId = value; }
     }
 }

@@ -42,24 +42,24 @@
             private static CouponModel ReadCoupons(IDataRecord reader)
             {
                 int id = reader.GetInt32(0);
-                string label = reader.IsDBNull(1) ? null : reader.GetString(1);
+                string code = reader.IsDBNull(1) ? null : reader.GetString(1);
                 string desription = reader.IsDBNull(2) ? null : reader.GetString(2);
-                int discount = reader.GetInt32(3);
-                DateTime dateOfIssue = reader.GetDateTime(4);
-                DateTime dateOfExpiry = reader.GetDateTime(5);
-                bool validity = reader.GetBoolean(6);
+                DateTime validFrom = reader.GetDateTime(3);
+                DateTime validUntil = reader.GetDateTime(4);
+                bool validity = reader.GetBoolean(5);
+                int userId = reader.GetInt32(6);
 
 
 
                 CouponModel coupon = new CouponModel
                 {
                     Id = id,
-                    Label = label,
+                    Code = code,
                     Description = desription,
-                    Discount = discount,
-                    DateOfIssue = dateOfIssue,
-                    DateOfExpiry = dateOfExpiry,
-                    Validity = validity
+                    ValidFrom = validFrom,
+                    ValidUntil = validUntil,
+                    Validity = validity,
+                    UserId = userId
                 };
                 return coupon;
             }
@@ -89,8 +89,8 @@
             [HttpPost]
             public ActionResult Post([FromBody] CouponModel input)
             {
-                string commandStringInsert = "INSERT INTO Coupons (Label, Description, Discount, DateOfIssue, DateOfExpiry, Validity, CustomerId)" +
-                                       "VALUES(@Label, @Description, @Discount, @DateOfIssue, @DateOfExpiry, @Validity, @CustomerId)";
+                string commandStringInsert = "INSERT INTO Coupons (Code, Description, ValidFrom, ValidUntil, Validity, UserId)" +
+                                       "VALUES(@Code, @Description, @ValidFrom, @ValidUntil, @Validity, @UserId)";
 
 
                 try
@@ -102,13 +102,12 @@
 
                         using (SqlCommand cmd = new SqlCommand(commandStringInsert, connection))
                         {
-                            cmd.Parameters.AddWithValue("@Label", input.Label);
+                            cmd.Parameters.AddWithValue("@Code", input.Code);
                             cmd.Parameters.AddWithValue("@Description", input.Description);
-                            cmd.Parameters.AddWithValue("@Discount", input.Discount);
-                            cmd.Parameters.AddWithValue("@DateOfIssue", input.DateOfIssue);
-                            cmd.Parameters.AddWithValue("@DateOfExpiry", input.DateOfExpiry);
+                            cmd.Parameters.AddWithValue("@ValidFrom", input.ValidFrom);
+                            cmd.Parameters.AddWithValue("@ValidUntil", input.ValidUntil);
                             cmd.Parameters.AddWithValue("@Validity", input.Validity);
-                            cmd.Parameters.AddWithValue("@CustomerId", 1); //TODO Need to be changed to dynamic data
+                            cmd.Parameters.AddWithValue("@UserId", 1); //TODO Need to be changed to dynamic data
                             int effectedDBrows = cmd.ExecuteNonQuery();
 
                             if (effectedDBrows < 0)
@@ -132,17 +131,16 @@
             public ActionResult UpdateCoupon(int id, [FromBody] CouponModel input)
             {
                 const string updateString =
-                    "update Coupons set label=@label, description=@description, discount=@discount, dateofissue=@dateofissue, validity=@validity where id=@id;";
+                    "update Coupons set code=@code, description=@description, validFrom=@validFrom, validUntil=@validUntil, validity=@validity where id=@id;";
                 using (SqlConnection databaseConnection = new SqlConnection(ConnectionString.GetConnectionString()))
                 {
                     databaseConnection.Open();
                     using (SqlCommand updateCommand = new SqlCommand(updateString, databaseConnection))
                     {
-                        updateCommand.Parameters.AddWithValue("@label", input.Label);
+                        updateCommand.Parameters.AddWithValue("@code", input.Code);
                         updateCommand.Parameters.AddWithValue("@description", input.Description);
-                        updateCommand.Parameters.AddWithValue("@discount", input.Discount);
-                        updateCommand.Parameters.AddWithValue("@dateofissue", input.DateOfIssue);
-                        updateCommand.Parameters.AddWithValue("@dateofexpiry", input.DateOfExpiry);
+                        updateCommand.Parameters.AddWithValue("@validFrom", input.ValidFrom);
+                        updateCommand.Parameters.AddWithValue("@validUntil", input.ValidUntil);
                         updateCommand.Parameters.AddWithValue("@validity", input.Validity);
                         updateCommand.Parameters.AddWithValue("@id", id);
                         int rowsAffected = updateCommand.ExecuteNonQuery();
