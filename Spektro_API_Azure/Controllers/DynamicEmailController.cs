@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Spektro_API_Azure.Service;
 using System;
 
 namespace Spektro_API_Azure.Controllers
 {
-[Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class DynamicEmailController : ControllerBase
     {
         // GET: api/DynamicEmail
@@ -18,18 +19,19 @@ namespace Spektro_API_Azure.Controllers
 
         // POST: api/DynamicEmail
         [HttpPost]
-        public string Post(string firstname, string lastname, string email, DateTime date, string mailtype, string subject)
+        public IActionResult Post(string firstname, string lastname, string email, DateTime date, string mailtype, string subject)
         {
             try
             {
-                DynamicEmailSender.SendCustomEmail(firstname, lastname, email.ToLower(), date, mailtype.ToUpper(), subject);
+                DynamicEmailSender.SendCustomEmail(firstname, lastname, email.ToLower(), date, mailtype.ToUpper(), subject, errorText: null);
+                return Ok("Email sent successfully.");
             }
             catch (System.Exception)
             {
+                return NotFound("Error. Email was not sent.");
                 throw;
+                //TODO: Log to DB
             }
-
-            return "Email sent!";
         }
     }
 }

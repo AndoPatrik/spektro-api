@@ -4,11 +4,15 @@ using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using Spektro_API_Azure.Model;
 using Spektro_API_Azure.Service;
+using Microsoft.AspNetCore.Authorization;
+
+//TODO: Inplement email sending + mock sms ( save credit for later )
 
 namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     public class AutomatizedServiceController : ControllerBase
     { 
         private string todaysDate = DateTime.Now.Date.ToString("yyyy-MM-dd").Replace(".", "-").Trim();
@@ -27,7 +31,7 @@ namespace Spektro_API_Azure.Controllers
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+                using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
                 {
                     connection.Open();
                     using (SqlCommand cmd = new SqlCommand(cmdTodaysReservations, connection))
@@ -92,7 +96,7 @@ namespace Spektro_API_Azure.Controllers
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+                using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
                 {
                     connection.Open();
                     using (SqlCommand cmd = new SqlCommand(cmdTodaysReservations, connection))

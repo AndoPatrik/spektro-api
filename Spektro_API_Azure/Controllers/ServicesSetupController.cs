@@ -1,17 +1,18 @@
-﻿using System;
-using Hangfire;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ServicesSetupController : ControllerBase
     {
         private int _hour = 7;
         private int _minute = 0;
-        private AutomatizedServiceController asc = new AutomatizedServiceController();
-
+        private AutomatizedServiceController asc = new AutomatizedServiceController(); //TODO : Implement dependency injection istead of direct obj creation.
+        //TODO : Exception handling for all + logging
 
         [Route("SetJob/ReservationNotifications/h:{hour}/m:{minute}")]
         [HttpGet]

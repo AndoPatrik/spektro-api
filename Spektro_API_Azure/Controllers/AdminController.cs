@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Spektro_API_Azure.Model;
 using Spektro_API_Azure.Service;
 
+//TODO: Exception handling + logging for all
+
 namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         // GET: api/Admin
@@ -18,7 +22,7 @@ namespace Spektro_API_Azure.Controllers
         public IEnumerable<ReservationModel> GetAllReservations()
         {
             const string selectString = "select * from Reservations order by id";
-            using (SqlConnection databaseConnection = new SqlConnection(ConnectionString.GetConnectionString()))
+            using (SqlConnection databaseConnection = new SqlConnection(SecretStrings.GetConnectionString()))
             {
                 databaseConnection.Open();
                 using (SqlCommand selectCommand = new SqlCommand(selectString, databaseConnection))
@@ -37,8 +41,7 @@ namespace Spektro_API_Azure.Controllers
             }
         }
 
-
-        private static ReservationModel ReadReservations(IDataRecord reader)
+        private static ReservationModel ReadReservations(IDataRecord reader) // TODO: Rewrite it to be smaller
         {
 
             string firstname = reader.IsDBNull(0) ? null : reader.GetString(0).Trim();
@@ -50,10 +53,7 @@ namespace Spektro_API_Azure.Controllers
             int noofpeople = reader.GetInt32(6);
             DateTime dateofreservation = reader.GetDateTime(7);
             int id = reader.GetInt32(8);
-
-
-
-
+            
             ReservationModel reservation = new ReservationModel
             {
                 FirstName = firstname,
@@ -75,7 +75,7 @@ namespace Spektro_API_Azure.Controllers
         public ReservationModel GetReservationById(int id)
         {
             const string selectString = "select * from Reservations where id=@id";
-            using (SqlConnection databaseConnection = new SqlConnection(ConnectionString.GetConnectionString()))
+            using (SqlConnection databaseConnection = new SqlConnection(SecretStrings.GetConnectionString()))
             {
                 databaseConnection.Open();
                 using (SqlCommand selectCommand = new SqlCommand(selectString, databaseConnection))
@@ -98,13 +98,12 @@ namespace Spektro_API_Azure.Controllers
         }
 
         // PUT: api/Admin/5
-
         [HttpPut("{id}")]
         [Route("TableReservation/Update/{id}")]
         public ActionResult UpdateReservation(int id, [FromBody] ReservationModel input)
         {
             string updateString = "update Reservations set FirstName = @FirstName , LastName = @LastName , Email = @Email ,PhoneNo = @PhoneNo , EmailNotification = @EmailNotification, SmsNotification = @SmsNotification, NoOfPeople = @NoOfPeople, DateOfReservation = @DateOfReservation where Id = @Id";
-            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
             {
                 connection.Open();
                 using (SqlCommand cmd = new SqlCommand(updateString, connection))
@@ -132,15 +131,13 @@ namespace Spektro_API_Azure.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-
-        
         [HttpDelete("{id}")]
         [Route("TableReservation/Delete/{id}")]
         public ActionResult Delete(int id)
         {
             string deleteString = "DELETE FROM Reservations WHERE Id = @Id";
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
             {
                 connection.Open();
                 using (SqlCommand cmd = new SqlCommand(deleteString, connection))
@@ -162,7 +159,7 @@ namespace Spektro_API_Azure.Controllers
         [Route("SMS")]
         public IActionResult SendSMSTest() 
         {
-            if (SMSSender.SendSMS("+4550378071"))
+            if (SMSService.SendSMS("+4550378071", "TEST"))
             {
                 return Ok("SMS has been sent.");
             }

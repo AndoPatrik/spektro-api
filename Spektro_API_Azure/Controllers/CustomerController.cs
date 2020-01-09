@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Spektro_API_Azure.Model;
 using Spektro_API_Azure.Service;
@@ -7,6 +8,7 @@ namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class CustomerController : Controller
     {
         private static CustomerModel BuildCustomerObj(SqlDataReader reader) 
@@ -30,13 +32,15 @@ namespace Spektro_API_Azure.Controllers
             return customerFromSql;
         }
 
+        //TODO: Exception handling + logging for all
+
         // GET: api/Customer/5
         [HttpGet("{id}", Name = "GetSingleUser")]
         public ActionResult GetSingleUser(int id)
         {
             string commandStringSelect = "SELECT * FROM Users WHERE Id = @Id";
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
             {
                 connection.Open();
                 using (SqlCommand cmd = new SqlCommand(commandStringSelect, connection))
@@ -82,7 +86,7 @@ namespace Spektro_API_Azure.Controllers
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+                using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
                 {
                     connection.Open();
 
@@ -135,7 +139,7 @@ namespace Spektro_API_Azure.Controllers
                         " LastName = @LastName, EmailNotification = @EmailNoti, SmsNotification = @SmsNoti, PhoneNo = @PhoneNo WHERE Id = @Id;";
 
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
             {
                 connection.Open();
                 using (SqlCommand cmd = new SqlCommand(commandStringUpdate, connection))

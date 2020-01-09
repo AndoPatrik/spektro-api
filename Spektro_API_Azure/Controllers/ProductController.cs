@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Spektro_API_Azure.Model;
@@ -8,9 +9,10 @@ namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ProductController : ControllerBase
     {
-        public static ProductModel ReaderProductModel(SqlDataReader reader) 
+        private static ProductModel ReaderProductModel(SqlDataReader reader) 
         {
             ProductModel product = new ProductModel();
             product.Id = reader.GetInt32(0);
@@ -32,11 +34,11 @@ namespace Spektro_API_Azure.Controllers
 
         // GET: api/Product/5
         [HttpGet("{product}", Name = "GetByCategory")]
-        public List<ProductModel> GetByCategory(string product)
+        public List<ProductModel> GetByCategory(string product) //TODO: Try catch + logging implementation
         {
             string sqlString = "select * from Products where ProductType = @product";
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString())) 
+            using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString())) 
             {
                 connection.Open();
                 using (SqlCommand cmd = new SqlCommand(sqlString, connection)) 
@@ -58,24 +60,6 @@ namespace Spektro_API_Azure.Controllers
                     }
                 }
             } 
-        }
-
-        // POST: api/Product
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Product/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

@@ -23,24 +23,22 @@ namespace Spektro_API_Azure
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHangfire(x => x.UseSqlServerStorage(ConnectionString.GetConnectionString()));
+            services.AddHangfire(x => x.UseSqlServerStorage(SecretStrings.GetConnectionString()));
             services.AddHangfireServer();
 
-            // Security Key  from Service
-            string securityKey = ConnectionString.GetSecretKey();
-
             // Symmetric Key
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
-
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretStrings.GetSecretKey()));
+ 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                         //What to validate
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateIssuerSigningKey = true,
+                       
                         // setup valid data
                         ValidIssuer = "spektro.sk",
                         ValidAudience ="users",

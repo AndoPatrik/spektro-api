@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Spektro_API_Azure.Model;
 using Spektro_API_Azure.Service;
+using System;
 
 namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class TableReservationController : ControllerBase
     {
         public static ReservationModel BuildReservationModel(SqlDataReader reader) 
@@ -25,43 +26,14 @@ namespace Spektro_API_Azure.Controllers
             return reservation;
         }
 
-        private static bool ValidateData(ReservationModel reservation) 
-        {
-            if (reservation.FirstName!= null || reservation.FirstName != string.Empty) //TODO : Implement all casees
-            {
-                return true;
-            }
-            return false;
-        }
-
-        // GET: api/TableReservation
-        [HttpGet]
-        public List<ReservationModel> GetAllReservations()
-        {
-            ReservationModel r = new ReservationModel();
-            r.EmailAddress = "yo";
-            return new List<ReservationModel> { r };
-        }
-
-        // GET: api/TableReservation/Mark
-        [HttpGet("{name}", Name = "GetReservationByName")]
-        public ReservationModel GetReservationByName(string name)
-        {
-            return new ReservationModel();
-        }
-
-        // POST: api/TableReservation
         [HttpPost]
         public ActionResult Post([FromBody] ReservationModel input)
         {
             string commandString = "INSERT INTO Reservations (FirstName, LastName, Email, PhoneNo, EmailNotification, SmsNotification, NoOfPeople , DateOfReservation)"+
-                                   "VALUES(@FirstName, @LastName, @Email, @PhoneNo, @EmailNoti, @SmsNoti, @NoOfPeople, @DateOfReservation)";
-
-            
-
+                                   "VALUES(@FirstName, @LastName, @Email, @PhoneNo, @EmailNoti, @SmsNoti, @NoOfPeople, @DateOfReservation)"; //TODO: Implement when the reservation was created.
             try 
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString.GetConnectionString()))
+                using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
                 {
                     connection.Open();
                     using (SqlCommand cmd = new SqlCommand(commandString, connection))
@@ -83,29 +55,32 @@ namespace Spektro_API_Azure.Controllers
                             {
                                 try
                                 {
-                                    EmailSenderService.SendEmailNotificationForReservation(input);
+                                    DynamicEmailSender.SendCustomEmail(input.FirstName, input.LastName, input.EmailAddress, input.DateOfReservation, "RESERVATION", "Spektro - Reservation confirmation", errorText: null);
                                 }
-                                catch (System.Exception) 
+                                catch (Exception e) 
                                 {
+                                    ErrorLogger.LogToDb(e.ToString(), "TableReservationController/Post");
                                     throw;
+                                    // TODO: Log exception to db 
                                 }
                                 
                             }
                             if (input.SmsNotification)
                             {
-                                //TODO: Implement SMS sender service.
+                                //Enable only on demo day. 
+                                //SMSService.SendSMS(input.PhoneNumber, $"Thank you for your reservation. See you at {input.DateOfReservation}.");
                             }
                             return Ok();
                         }
-
                         return Problem();
                     }
                 }
             }
             catch (SqlException e) 
             {
-                throw e;
-
+               
+                ErrorLogger.LogToDb(e.ToString(), "TableReservationController/Post");
+                throw;
             }
         }
     }
