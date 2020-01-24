@@ -13,7 +13,7 @@ namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+  [Authorize(AuthenticationSchemes = "Bearer")]
     public class CouponController : ControllerBase
     {
         // GET: api/Coupon
@@ -68,7 +68,7 @@ namespace Spektro_API_Azure.Controllers
 
         // GET: api/Coupon/5
         [Route("{id}")]
-        public CouponModel GeCouponById(int id)
+        public  IEnumerable<CouponModel>GeCouponById(int id)
         {
             const string selectString = "select * from Coupons where UserId=@id";
             using (SqlConnection databaseConnection = new SqlConnection(SecretStrings.GetConnectionString()))
@@ -80,8 +80,13 @@ namespace Spektro_API_Azure.Controllers
                     using (SqlDataReader reader = selectCommand.ExecuteReader())
                     {
                         if (!reader.HasRows) { return null; }
-                        reader.Read(); // advance cursor to first row
-                        return ReadCoupons(reader);
+                        List<CouponModel> couponList = new List<CouponModel>();
+                        while (reader.Read())
+                        {
+                            CouponModel coupon = ReadCoupons(reader);
+                            couponList.Add(coupon);
+                        }
+                        return couponList;
                     }
                 }
             }
