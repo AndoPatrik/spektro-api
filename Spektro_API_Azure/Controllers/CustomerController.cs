@@ -173,6 +173,8 @@ namespace Spektro_API_Azure.Controllers
         {
             string findString = "SELECT * FROM Users WHERE Id = @Id"; // find customer by id check if input.pw = user.pw => user.pw = input.newpw
             string updateString = "UPDATE Users SET kodeord = @Kodeord WHERE Id = @Id;";
+            string pwFromDb = "";
+            string npw = input.newPassword;
 
             using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
             {
@@ -182,34 +184,34 @@ namespace Spektro_API_Azure.Controllers
                     findCmd.Parameters.AddWithValue("@Id",id);
                     using (SqlDataReader reader = findCmd.ExecuteReader())
                     {
+                        
                         if (reader.HasRows) 
                         {
-                            string pwFromDb = "";
                             while (reader.Read())
                             {
                                  pwFromDb = reader.GetString(3).Trim();
                             }
-                            
-                            if (input.oldPassword == pwFromDb)
-                            {
-                                findCmd.Dispose();
-                                reader.Close();
-                                using (SqlCommand updateCmd = new SqlCommand(updateString, connection))
-                                {
-                                    // cmd params
-                                    updateCmd.Parameters.AddWithValue("@Kodeord", input.newPassword);
-                                    int x = updateCmd.ExecuteNonQuery();
-
-                                    if (x <= 1)
-                                    {
-                                        return Ok();
-                                    }
-                                }
-                            }
-                        }
-                        return NotFound();
-                    }    
+                        }       
+                    }
                 }
+                if (input.oldPassword == pwFromDb)
+                {
+                    //findCmd.Dispose();
+                    //reader.Close();
+                    using (SqlCommand updateCmd = new SqlCommand(updateString, connection))
+                    {
+                        // cmd params
+                        updateCmd.Parameters.AddWithValue("@Kodeord", npw);
+                        updateCmd.Parameters.AddWithValue("@Id", id);
+                        int x = updateCmd.ExecuteNonQuery();
+
+                        if (x <= 1)
+                        {
+                            return Ok();
+                        }
+                    }
+                }
+                return NotFound();
             }
         }
     }

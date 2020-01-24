@@ -44,7 +44,7 @@ namespace Spektro_API_Azure.Controllers
                             // Add Claims
                             var claims = new List<Claim>();
                             claims.Add(new Claim("UserID", $"{userID}"));
-                            claims.Add(new Claim("userRole", $"{role}"));
+                            claims.Add(new Claim(ClaimTypes.Role, $"{role}"));
 
                             // Create token
                             var token = new JwtSecurityToken(
