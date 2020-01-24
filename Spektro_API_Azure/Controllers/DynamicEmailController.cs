@@ -18,7 +18,7 @@ namespace Spektro_API_Azure.Controllers
         }
 
         // POST: api/DynamicEmail
-        [HttpPost]
+        [HttpGet]
         public IActionResult Post(string firstname, string lastname, string email, DateTime date, string mailtype, string subject)
         {
             try

@@ -38,6 +38,10 @@
       "frameworks": {
         "netcoreapp3.0": {
           "dependencies": {
+            "EntityFrameworkCore.Diagrams": {
+              "target": "Package",
+              "version": "[0.4.2, )"
+            },
             "Hangfire": {
               "target": "Package",
               "version": "[1.7.8, )"
