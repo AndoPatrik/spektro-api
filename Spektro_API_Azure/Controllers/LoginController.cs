@@ -10,6 +10,7 @@ using Spektro_API_Azure.Service;
 
 namespace Spektro_API_Azure.Controllers
 {
+    //Class should be renamed to AuthController => Need to change call in VUE.
     [Route("api/[controller]")]
     [ApiController]   
     public class LoginController : ControllerBase

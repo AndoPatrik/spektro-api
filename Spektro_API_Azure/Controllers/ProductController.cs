@@ -9,6 +9,7 @@ namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     public class ProductController : ControllerBase
     {
         private static ProductModel ReaderProductModel(SqlDataReader reader) 
