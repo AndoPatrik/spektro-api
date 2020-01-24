@@ -135,7 +135,7 @@ namespace Spektro_API_Azure.Controllers
         [HttpPut("{id}")]
         public ActionResult UpdateUser(int id, [FromBody] CustomerModel input)
         {
-            string commandStringUpdate = "UPDATE Users SET UserRole = @UserRole,Email = @Email, Kodeord = @Kodeord, FirstName = @FirstName," +
+            string commandStringUpdate = "UPDATE Users SET UserRole = @UserRole,Email = @Email, FirstName = @FirstName," +
                         " LastName = @LastName, EmailNotification = @EmailNoti, SmsNotification = @SmsNoti, PhoneNo = @PhoneNo WHERE Id = @Id;";
 
 
@@ -147,7 +147,6 @@ namespace Spektro_API_Azure.Controllers
                     cmd.Parameters.AddWithValue("@Id", input.Id);
                     cmd.Parameters.AddWithValue("@UserRole", input.UserRole);
                     cmd.Parameters.AddWithValue("@Email", input.Email);
-                    cmd.Parameters.AddWithValue("@Kodeord", input.Kodeord);
                     cmd.Parameters.AddWithValue("@FirstName", input.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", input.LastName);
                     cmd.Parameters.AddWithValue("@EmailNoti", input.EmailNotification);
