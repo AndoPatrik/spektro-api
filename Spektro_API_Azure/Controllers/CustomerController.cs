@@ -8,7 +8,7 @@ namespace Spektro_API_Azure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    
     public class CustomerController : Controller
     {
         private static CustomerModel BuildCustomerObj(SqlDataReader reader) 
@@ -36,6 +36,7 @@ namespace Spektro_API_Azure.Controllers
 
         // GET: api/Customer/5
         [HttpGet("{id}", Name = "GetSingleUser")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public ActionResult GetSingleUser(int id)
         {
             string commandStringSelect = "SELECT * FROM Users WHERE Id = @Id";
@@ -76,7 +77,7 @@ namespace Spektro_API_Azure.Controllers
             string commandStringInsert = "INSERT INTO Users (UserRole, Email, Kodeord, FirstName, LastName, EmailNotification, SmsNotification, PhoneNo)" +
                                    "VALUES(@UserRole, @Email, @Kodeord, @FirstName, @LastName, @EmailNotification, @SmsNotification, @PhoneNo)";
 
-            if (input.UserRole.Length > 10 || input.Email.Length > 50 || input.Kodeord.Length > 60 || input.FirstName.Length > 30 || 
+            if (input.UserRole.Length > 10 || input.Email.Length > 50 || input.FirstName.Length > 30 || 
                 input.LastName.Length > 30 || input.PhoneNo.Length > 20 || input.EmailNotification.GetType() != typeof(bool) ||
                 input.SmsNotification.GetType() != typeof(bool))
 
@@ -133,6 +134,7 @@ namespace Spektro_API_Azure.Controllers
 
         // PUT: api/Customer/5
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public ActionResult UpdateUser(int id, [FromBody] CustomerModel input)
         {
             string commandStringUpdate = "UPDATE Users SET UserRole = @UserRole,Email = @Email, FirstName = @FirstName," +
@@ -161,6 +163,52 @@ namespace Spektro_API_Azure.Controllers
                     }
 
                     return Conflict("No record was updated.");
+                }
+            }
+        }
+        //In dev
+        [HttpPost("passwordUpdate/{id}")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
+        public IActionResult CustomerPasswordUpdate(int id, [FromBody] dynamic input) 
+        {
+            string findString = "SELECT * FROM Users WHERE Id = @Id"; // find customer by id check if input.pw = user.pw => user.pw = input.newpw
+            string updateString = "UPDATE Users SET kodeord = @Kodeord WHERE Id = @Id;";
+
+            using (SqlConnection connection = new SqlConnection(SecretStrings.GetConnectionString()))
+            {
+                connection.Open();
+                using (SqlCommand findCmd = new SqlCommand(findString,connection))
+                {
+                    findCmd.Parameters.AddWithValue("@Id",id);
+                    using (SqlDataReader reader = findCmd.ExecuteReader())
+                    {
+                        if (reader.HasRows) 
+                        {
+                            string pwFromDb = "";
+                            while (reader.Read())
+                            {
+                                 pwFromDb = reader.GetString(3).Trim();
+                            }
+                            
+                            if (input.oldPassword == pwFromDb)
+                            {
+                                findCmd.Dispose();
+                                reader.Close();
+                                using (SqlCommand updateCmd = new SqlCommand(updateString, connection))
+                                {
+                                    // cmd params
+                                    updateCmd.Parameters.AddWithValue("@Kodeord", input.newPassword);
+                                    int x = updateCmd.ExecuteNonQuery();
+
+                                    if (x <= 1)
+                                    {
+                                        return Ok();
+                                    }
+                                }
+                            }
+                        }
+                        return NotFound();
+                    }    
                 }
             }
         }
