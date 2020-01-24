@@ -168,7 +168,7 @@ namespace Spektro_API_Azure.Controllers
         }
         //In dev
         [HttpPost("passwordUpdate/{id}")]
-        //[Authorize(AuthenticationSchemes = "Bearer")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public IActionResult CustomerPasswordUpdate(int id, [FromBody] dynamic input) 
         {
             string findString = "SELECT * FROM Users WHERE Id = @Id"; // find customer by id check if input.pw = user.pw => user.pw = input.newpw
@@ -184,7 +184,6 @@ namespace Spektro_API_Azure.Controllers
                     findCmd.Parameters.AddWithValue("@Id",id);
                     using (SqlDataReader reader = findCmd.ExecuteReader())
                     {
-                        
                         if (reader.HasRows) 
                         {
                             while (reader.Read())
@@ -196,11 +195,8 @@ namespace Spektro_API_Azure.Controllers
                 }
                 if (input.oldPassword == pwFromDb)
                 {
-                    //findCmd.Dispose();
-                    //reader.Close();
                     using (SqlCommand updateCmd = new SqlCommand(updateString, connection))
                     {
-                        // cmd params
                         updateCmd.Parameters.AddWithValue("@Kodeord", npw);
                         updateCmd.Parameters.AddWithValue("@Id", id);
                         int x = updateCmd.ExecuteNonQuery();
