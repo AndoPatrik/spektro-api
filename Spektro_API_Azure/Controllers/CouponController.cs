@@ -70,7 +70,7 @@ namespace Spektro_API_Azure.Controllers
         [Route("{id}")]
         public CouponModel GeCouponById(int id)
         {
-            const string selectString = "select * from Coupons where id=@id";
+            const string selectString = "select * from Coupons where UserId=@id";
             using (SqlConnection databaseConnection = new SqlConnection(SecretStrings.GetConnectionString()))
             {
                 databaseConnection.Open();
