@@ -69,28 +69,6 @@ namespace Spektro_API_Azure.Controllers
             return reservation;
         }
 
-        // GET: api/Admin/5
-        [HttpGet]
-        [Route("TableReservation/{id}")]
-        public ReservationModel GetReservationById(int id)
-        {
-            const string selectString = "select * from Reservations where id=@id";
-            using (SqlConnection databaseConnection = new SqlConnection(SecretStrings.GetConnectionString()))
-            {
-                databaseConnection.Open();
-                using (SqlCommand selectCommand = new SqlCommand(selectString, databaseConnection))
-                {
-                    selectCommand.Parameters.AddWithValue("@id", id);
-                    using (SqlDataReader reader = selectCommand.ExecuteReader())
-                    {
-                        if (!reader.HasRows) { return null; }
-                        reader.Read(); // advance cursor to first row
-                        return ReadReservations(reader);
-                    }
-                }
-            }
-        }
-
         // POST: api/Admin
         [HttpPost]
         public void Post([FromBody] string value)
