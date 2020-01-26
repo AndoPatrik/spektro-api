@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Net.Mail;
 
 namespace Spektro_API_Azure.Service
@@ -45,37 +47,86 @@ namespace Spektro_API_Azure.Service
         }
         #endregion
 
+        private static Random random = new Random();
+        public static string GenerateCouponCode()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string toReturn = "";
+
+            for (int i = 0; i < 4; i++)
+            {
+                string c = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
+                toReturn = toReturn + c;
+
+                if (i < 3)
+                {
+                    toReturn = toReturn + "-";
+                }
+            }
+            return toReturn;
+
+            //return new string(Enumerable.Repeat(chars, length)
+              //.Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         public static void SendCustomEmail(string firstname, string lastname, string email, DateTime date, string mailtype, string subject, string errorText) //TODO: nullable type
         {
-            string mailContent = "";
+            string mailContentPath = "";
+            string mailBodyWithBinding = "";
+            StreamReader reader;
+
+            string burger1Name = "TRADITIONAL CHEESY JOE";
+            string burger1Description = "This burger was developed by best cooks in Italy in 20th century and according to the original recipe, we are trying to bring the same value to our restaurant! ..";
+
+            string burger2Name = "CLASSIC SUBMARINE";
+            string burger2Description = "The straight-forward cheeseburger with special grounded beef that was initially meant for American navy...";
 
             if (mailtype == "COUPON")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + GetCouponHTML();
+                reader = new StreamReader("EmailTemplates/Spektrocoupon.html");
+                mailBodyWithBinding = reader.ReadToEnd()
+                    .Replace("{description}", "15% Off from your burger")
+                    .Replace("{validfrom}", DateTime.Now.AddDays(7).ToString())
+                    .Replace("{validuntil}", date.ToString())
+                    .Replace("{code}", GenerateCouponCode());
             }
             else if (mailtype == "RESERVATION")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + GetReservationHTML();
+                reader = new StreamReader("EmailTemplates/Spektrobooking.html");
+                mailBodyWithBinding = reader.ReadToEnd()
+                    .Replace("{date}", date.Date.ToString())
+                    .Replace("{time}", date.TimeOfDay.ToString())
+                    .Replace("{burger1 name}", burger1Name)
+                    .Replace("{burger1 desription}", burger1Description)
+                    .Replace("{burger2 name}", burger2Name)
+                    .Replace("{burger2 description}", burger2Description);
             }
             else if (mailtype == "RESERVATIONWAITER")
             {
-                mailContent = @"Hello main waiter!<br>" + GetReservationWaiterHTML() + "Name: " + firstname + " " + lastname + "<br>Email: " + email + "<br>Date: " + date;
+                mailContentPath = "";
             }
             else if (mailtype == "PROMO")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + GetPromoHTML();
+                mailContentPath = "";
             }
             else if (mailtype == "REGISTRATION")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + GetReservationHTML();
+                reader = new StreamReader("EmailTemplates/Spektrowelcome.html");
+                mailBodyWithBinding = reader.ReadToEnd()
+                    .Replace("{burger1 name}", burger1Name)
+                    .Replace("{burger1 desription}", burger1Description)
+                    .Replace("{burger2 name}", burger2Name)
+                    .Replace("{burger2 description}", burger2Description)
+                    .Replace("{%}", "15%")
+                    .Replace("{coupon}","AADE-EFFA-E56S-13AD");
             }
             else if (mailtype == "FORGOTTEN")
             {
-                mailContent = @"Hello " + firstname + " " + lastname + ",<br>" + GetForgottenHTML();
+                mailContentPath = "";
             }
             else if (mailtype == "ERROR") 
             {
-                mailContent = GetErrorLogCouldNotBeCreatedHTML(errorText);
+                mailContentPath = GetErrorLogCouldNotBeCreatedHTML(errorText);
             }
 
 
@@ -94,7 +145,7 @@ namespace Spektro_API_Azure.Service
             {
                 msg = new MailMessage("spektro.noreply@gmail.com", email);
                 msg.Subject = subject;
-                msg.Body = mailContent;
+                msg.Body = mailBodyWithBinding;
                 msg.IsBodyHtml = true;
                 smtpClient.Send(msg);
             }
@@ -108,6 +159,8 @@ namespace Spektro_API_Azure.Service
                 if (msg != null)
                 {
                     msg.Dispose();
+                    smtpClient.Dispose();
+                    //reader.Dispose();
                 }
             }
 
