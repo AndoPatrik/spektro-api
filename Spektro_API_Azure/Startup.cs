@@ -56,18 +56,20 @@ namespace Spektro_API_Azure
             app.UseHangfireServer();
             app.UseHangfireDashboard(pathMatch: "/hangfire");
 
+            app.UseStaticFiles();
+            //app.UseStaticFiles(new StaticFileOptions
+            //        {
+            //            FileProvider = new PhysicalFileProvider(
+            //            Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates")),
+            //            RequestPath = "/StaticFiles"
+            //        });
   
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), "EmailTemplates")),
-                RequestPath = "/EmailTemplates"
-            });
+          
 
             app.UseHttpsRedirection();
 

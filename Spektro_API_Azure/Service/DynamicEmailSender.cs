@@ -83,16 +83,16 @@ namespace Spektro_API_Azure.Service
 
             if (mailtype == "COUPON")
             {
-                reader = new StreamReader("EmailTemplates/Spektrocoupon.html");
+                reader = new StreamReader("wwwroot/Spektrocoupon.html");
                 mailBodyWithBinding = reader.ReadToEnd()
                     .Replace("{description}", "15% Off from your burger")
-                    .Replace("{validfrom}", DateTime.Now.AddDays(7).ToString())
-                    .Replace("{validuntil}", date.ToString())
+                    .Replace("{validuntil}", DateTime.Now.AddDays(7).ToString())
+                    .Replace("{validfrom}", date.ToString())
                     .Replace("{code}", GenerateCouponCode());
             }
             else if (mailtype == "RESERVATION")
             {
-                reader = new StreamReader("EmailTemplates/Spektrobooking.html");
+                reader = new StreamReader("wwwroot/Spektrobooking.html");
                 mailBodyWithBinding = reader.ReadToEnd()
                     .Replace("{date}", date.Date.ToString())
                     .Replace("{time}", date.TimeOfDay.ToString())
@@ -111,7 +111,7 @@ namespace Spektro_API_Azure.Service
             }
             else if (mailtype == "REGISTRATION")
             {
-                reader = new StreamReader("EmailTemplates/Spektrowelcome.html");
+                reader = new StreamReader("wwwroot/Spektrowelcome.html");
                 mailBodyWithBinding = reader.ReadToEnd()
                     .Replace("{burger1 name}", burger1Name)
                     .Replace("{burger1 desription}", burger1Description)
@@ -128,7 +128,6 @@ namespace Spektro_API_Azure.Service
             {
                 mailContentPath = GetErrorLogCouldNotBeCreatedHTML(errorText);
             }
-
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
             MailMessage msg = null;
